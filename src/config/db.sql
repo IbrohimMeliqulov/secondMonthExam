@@ -4,7 +4,7 @@ CREATE table users (
     id serial PRIMARY KEY,
     full_name varchar(120) not NULL,
     age INT not NULL,
-    email VARCHAR(80) not NULL,
+    email VARCHAR(80) not NULL UNIQUE,
     phone VARCHAR(40) not NULL
 );
 

@@ -4,8 +4,8 @@ import usersController from "../controllers/users.controller.js";
 export const userRouter = Router();
 
 userRouter
-  .post("/", usersController.POST)
   .get("/", usersController.GET)
-  .get("users/:id", usersController.getOne)
-  .delete("users/:id", usersController.DELETE)
-  .put("/users/:id", usersController.UPDATE);
+  .post("/", usersController.POST)
+  .get("/:id", usersController.getOne)
+  .delete("/:id", usersController.DELETE)
+  .put("/:id", usersController.UPDATE);
