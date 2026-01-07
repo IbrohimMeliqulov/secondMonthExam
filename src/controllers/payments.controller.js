@@ -14,7 +14,7 @@ const POST = async (req, res) => {
       data: payment.rows,
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -46,7 +46,7 @@ const GET = async (req, res) => {
       data: payments.rows,
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -73,7 +73,7 @@ const UPDATE = async (req, res) => {
       message: "payment updated successfully",
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -97,7 +97,7 @@ const DELETE = async (req, res) => {
       data: payment,
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
