@@ -9,7 +9,7 @@ const GET = async (req, res) => {
       data: cars.rows,
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -27,7 +27,7 @@ const POST = async (req, res) => {
       data: car.rows,
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -46,7 +46,7 @@ const getOne = async (req, res) => {
       data: car.rows[0],
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -73,7 +73,7 @@ const UPDATE = async (req, res) => {
       message: "Car updated successfully",
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -95,7 +95,7 @@ const DELETE = async (req, res) => {
       message: "car deleted successfully",
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 

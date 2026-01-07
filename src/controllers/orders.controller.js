@@ -2,39 +2,37 @@ import pg from "../config/config.js";
 
 const POST = async (req, res) => {
   try {
-    const data = req.body;
+    const { car_id, user_id, month_count, amount, start_date, end_date } =
+      req.body;
+
+    const car = pg.query("select price from cars where id=$1", [car_id]);
+    const percent = car.rows[0].price * 0.2;
+
+    if (percent > amount) {
+      return {
+        status: 400,
+        message: "Boshlang'ich to'lova yetarli emas",
+      };
+    }
+
     const order = await pg.query(
       "insert into orders(car_id,user_id,month_count,start_date,end_date) values($1,$2,$3,$4,$5) RETURNING *",
-      [
-        data.car_id,
-        data.user_id,
-        data.month_count,
-        data.start_date,
-        data.end_date,
-      ]
+      [car_id, user_id, month_count, start_date, end_date]
     );
-    const orders = await pg.query(
-      "select cars.price,orders.month_count from cars INNER JOIN orders ON cars.id=orders.car_id WHERE orders.user_id=$1",
-      [data.user_id]
-    );
-    let totalPayment = 0;
-    for (const row of orders.rows) {
-      let price = row.price;
 
-      if (row.month_count === 1) price *= 0.85;
-      else if (row.month_count === 3) price *= 0.7;
-      else if (row.month_count === 6) price *= 0.45;
+    const order_id = order.rows[0].id;
+    await pg.query("insert into payments (order_id,amount) values($1,$2)", [
+      order_id,
+      amount,
+    ]);
 
-      totalPayment += price;
-    }
     return res.status(201).json({
       status: 201,
       message: "Order created successfully",
-      data: order.rows,
-      payment: totalPayment,
+      data: order.rows[0],
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -56,7 +54,7 @@ const GET = async (req, res) => {
       data: orders.rows,
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -83,7 +81,7 @@ const UPDATE = async (req, res) => {
       message: "order updated successfully",
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 
@@ -105,7 +103,7 @@ const DELETE = async (req, res) => {
       data: order,
     });
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 

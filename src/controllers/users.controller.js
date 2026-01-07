@@ -13,7 +13,7 @@ const POST = async (req, res) => {
       data: user.rows,
     });
   } catch (error) {
-    console.log(error.message);
+    console.error(error);
   }
 };
 
